@@ -81,6 +81,9 @@ class CheckPoint(QObject):
             os.makedirs(point_folder)
             wb.save(os.path.abspath(os.path.join(point_folder, '流量表.xlsx')))
 
+    def get_sample_excel(self):
+        pass
+
 
 if __name__ == '__main__':
     # print(os.path.abspath((os.path.join(os.path.dirname(__file__), '..'))))
