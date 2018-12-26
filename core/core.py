@@ -17,10 +17,12 @@ def start():
             check_point.get_flow_excel()
 
         elif len(point_info_list) > 4:
-            #TODO
-            pass
-
-
+            point_name = point_info_list.pop(0)
+            point_time = float(point_info_list.pop(0))
+            point_water = int(point_info_list.pop(0))
+            point_status = point_info_list
+            check_point = checkpoint.CheckPoint(point_name, point_time, point_water, point_status[0])
+            check_point.get_flow_excel()
     # TODO, UI
     # app = QApplication(sys.argv)
     #
