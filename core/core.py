@@ -23,7 +23,8 @@ def start():
             point_status = point_info_list
             check_point = checkpoint.CheckPoint(point_name, point_time, point_water, point_status[0])
             check_point.get_flow_excel()
-    # TODO, UI
+
+    # TODO, QtUI
     # app = QApplication(sys.argv)
     #
     # main_window = core.window.MainWindow()

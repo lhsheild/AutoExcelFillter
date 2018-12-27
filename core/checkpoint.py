@@ -24,6 +24,7 @@ class CheckPoint(QObject):
     def get_flow_excel(self):
         flow0 = self.check_water / self.check_time / 1000
 
+        """流量信息"""
         flow00 = flow0
         flow01 = flow0 * random.uniform(0.95, 1.05)
         flow02 = flow0 * random.uniform(0.95, 1.05)
@@ -33,11 +34,11 @@ class CheckPoint(QObject):
         flow20 = flow0 * random.uniform(1.28, 1.37)
         flow21 = flow0 * random.uniform(1.28, 1.37)
         flow22 = flow0 * random.uniform(1.28, 1.37)
-
         self.flow_list=[flow00, flow01, flow02,flow10, flow11, flow12,flow20, flow21, flow22]
-        for i in self.flow_list:
-            print('flow:{}'.format(round(i, 3)))
+        # for i in self.flow_list:
+        #     print('flow:{}'.format(round(i, 3)))
 
+        """单次流量"""
         water00 = self.check_water
         water01 = random.randrange(1500, 3500, 100)
         water02 = random.randrange(1500, 3500, 100)
@@ -48,9 +49,10 @@ class CheckPoint(QObject):
         water21 = random.randrange(1500, 3500, 100)
         water22 = random.randrange(1500, 3500, 100)
         self.water_list = [water00,water01,water02,water10,water11,water12,water20,water21,water22]
-        for i in self.water_list:
-            print('water:{}'.format(i))
+        # for i in self.water_list:
+        #     print('water:{}'.format(i))
 
+        """单次时间"""
         time00 = self.check_time
         time01 = water01 / (flow01 * 1000)
         time02 = water02 / (flow02 * 1000)
@@ -61,8 +63,8 @@ class CheckPoint(QObject):
         time21 = water21 / (flow21 * 1000)
         time22 = water22 / (flow22 * 1000)
         self.time_list = [time00,time01,time02,time10,time11,time12,time20,time21,time22]
-        for i in self.time_list:
-            print('time:{}'.format(round(i, 2)))
+        # for i in self.time_list:
+        #     print('time:{}'.format(round(i, 2)))
 
         """填写流量表信息"""
         project_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -105,7 +107,6 @@ class CheckPoint(QObject):
 
 
 if __name__ == '__main__':
-    # print(os.path.abspath((os.path.join(os.path.dirname(__file__), '..'))))
     path = '/media/sheildog/183E3B373E3B0D6E/Workspace/12-24到12-25'
     for folder in os.listdir(path):
         folder_path = os.path.abspath(os.path.join(path, folder))
@@ -120,5 +121,3 @@ if __name__ == '__main__':
                 p_folder = os.path.abspath(os.path.join(folder_path, '照片'))
                 shutil.move(picture_path, p_folder)
                 print(file)
-            # file_path = os.path.abspath(os.path.join(folder_path, file))
-            # if os.path.basename()
