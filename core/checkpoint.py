@@ -1,18 +1,21 @@
 import random
 import os
+import time
+import shutil
 
 from PyQt5.QtCore import *
 import openpyxl
+from openpyxl.styles import Side, Border
 
 
 class CheckPoint(QObject):
-    def __init__(self, point_name, check_time, check_water, status):
+    def __init__(self, point_name, check_time, check_water, check_date = None):
         super().__init__()
 
         self.point_name = point_name
         self.check_time = check_time
         self.check_water = check_water
-        self.status = status
+        self.check_date = time.strftime("%Y/%m/%d %H:%M:%S", time.localtime())[:11] if check_date is None else check_date
 
         self.flow_list = []
         self.water_list = []
@@ -61,6 +64,7 @@ class CheckPoint(QObject):
         for i in self.time_list:
             print('time:{}'.format(round(i, 2)))
 
+        """填写流量表信息"""
         project_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
         orogin_excel = os.path.abspath(os.path.join(project_path, 'resource/容器法外业记录表.xlsx'))
         output_folder = os.path.abspath(os.path.join(project_path, 'output'))
@@ -74,6 +78,21 @@ class CheckPoint(QObject):
             ws[temp_time].value = round(self.time_list[i-4], 2)
             temp_water = 'E'+str(i)
             ws[temp_water].value = self.water_list[i-4]
+
+        """填写日期信息"""
+        print(ws['A2'].value[5:15])
+        til_str = ws['A2'].value
+        date_str = ws['A2'].value[5:15]
+        ws['A2'].value = til_str.replace(date_str, self.check_date)
+
+        """修复表边框"""
+        left, right, top, bottom = [Side(style='thin', color='000000')] * 4
+        border = Border(left=left, right=right, top=top, bottom=bottom)
+        for row in ws.rows:
+            for cell in row:
+                cell.border = border
+
+        """保存表文件"""
         point_folder = os.path.abspath(os.path.join(output_folder, self.point_name))
         if os.path.exists(point_folder):
             wb.save(os.path.abspath(os.path.join(point_folder, '流量表.xlsx')))
@@ -87,5 +106,19 @@ class CheckPoint(QObject):
 
 if __name__ == '__main__':
     # print(os.path.abspath((os.path.join(os.path.dirname(__file__), '..'))))
-    testp = CheckPoint('NPJ37-101', 10.15, 1700, '黄色、混浊、臭')
-    testp.get_flow_excel()
+    path = '/media/sheildog/183E3B373E3B0D6E/Workspace/12-24到12-25'
+    for folder in os.listdir(path):
+        folder_path = os.path.abspath(os.path.join(path, folder))
+        if os.path.isdir(folder_path):
+            picture_folder = os.path.abspath(os.path.join(folder_path, '照片'))
+            if not os.path.exists(picture_folder):
+                os.makedirs(picture_folder)
+        for file in os.listdir(folder_path):
+            (file_name, file_extension) = os.path.splitext(file)
+            if file_extension == '.jpg':
+                picture_path = os.path.abspath(os.path.join(folder_path, file))
+                p_folder = os.path.abspath(os.path.join(folder_path, '照片'))
+                shutil.move(picture_path, p_folder)
+                print(file)
+            # file_path = os.path.abspath(os.path.join(folder_path, file))
+            # if os.path.basename()
