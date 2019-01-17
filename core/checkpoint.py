@@ -97,10 +97,10 @@ class CheckPoint(QObject):
         """保存表文件"""
         point_folder = os.path.abspath(os.path.join(output_folder, self.point_name))
         if os.path.exists(point_folder):
-            wb.save(os.path.abspath(os.path.join(point_folder, '流量表.xlsx')))
+            wb.save(os.path.abspath(os.path.join(point_folder, self.point_name + '.xlsx')))
         else:
             os.makedirs(point_folder)
-            wb.save(os.path.abspath(os.path.join(point_folder, '流量表.xlsx')))
+            wb.save(os.path.abspath(os.path.join(point_folder, self.point_name + '.xlsx')))
 
     def get_sample_excel(self):
         pass
